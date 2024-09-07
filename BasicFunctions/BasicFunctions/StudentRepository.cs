@@ -11,9 +11,9 @@ namespace BasicFunctions
     {
         private const string ConnectionString = "Server=localhost;Database=University;Trusted_Connection=True;";
 
-        public List<StudentModel> GetAllDisconnected()
+        public List<Student> GetAllDisconnected()
         {
-            var students = new List<StudentModel>();
+            var students = new List<Student>();
 
             // create a unique instance of a database connection
             using (var connection = new SqlConnection(ConnectionString))
@@ -37,9 +37,9 @@ namespace BasicFunctions
             return students;
         }
 
-        public List<StudentModel> GetAllConnected()
+        public List<Student> GetAllConnected()
         {
-            var students = new List<StudentModel>();
+            var students = new List<Student>();
             using (var connection = new SqlConnection(ConnectionString))
             {
                 var command = new SqlCommand("SELECT * FROM dbo.Students", connection);
@@ -55,9 +55,9 @@ namespace BasicFunctions
             return students;
         }
 
-        public List<StudentModel> GetAllStoredViaProcedure()
+        public List<Student> GetAllStoredViaProcedure()
         {
-            var students = new List<StudentModel>();
+            var students = new List<Student>();
             using (var connection = new SqlConnection(ConnectionString))
             {
                 // execute an existing stored procedure by name
@@ -77,7 +77,7 @@ namespace BasicFunctions
             return students;
         }
 
-        public StudentModel Get(int id)
+        public Student Get(int id)
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -118,7 +118,7 @@ namespace BasicFunctions
             }
         }
 
-        public int Add(StudentModel student)
+        public int Add(Student student)
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -154,7 +154,7 @@ namespace BasicFunctions
                 var command = new SqlCommand("sp_deleteStudent", connection);
                 command.CommandType = CommandType.StoredProcedure;
 
-                //define input parameters
+
                 command.Parameters.AddWithValue("@Id", id);
 
                 connection.Open();
@@ -162,16 +162,16 @@ namespace BasicFunctions
             }
         }
 
-        private StudentModel CreateStudent(DataRow tableRow)
+        private Student CreateStudent(DataRow tableRow)
         {
-            var student = new StudentModel()
+            var student = new Student()
             {
                 Id = (int)tableRow["Id"],
                 FirstName = (string)tableRow["FirstName"],
                 LastName = (string)tableRow["LastName"],
                 Email = (string)tableRow["Email"],
                 PhoneNumber = (string)tableRow["PhoneNumber"],
-                AverageGrade = (double)tableRow["AverageGrade"],
+                AverageGrade = (float)tableRow["AverageGrade"],
                 FacultyId = tableRow["FacultyId"] != DBNull.Value
                     ? (int)tableRow["FacultyId"]
                     : null
@@ -179,16 +179,16 @@ namespace BasicFunctions
             return student;
         }
 
-        private StudentModel CreateStudent(SqlDataReader reader)
+        private Student CreateStudent(SqlDataReader reader)
         {
-            var student = new StudentModel()
+            var student = new Student()
             {
                 Id = (int)reader["Id"],
                 FirstName = (string)reader["FirstName"],
                 LastName = (string)reader["LastName"],
                 Email = (string)reader["Email"],
                 PhoneNumber = (string)reader["PhoneNumber"],
-                AverageGrade = (double)reader["AverageGrade"],
+                AverageGrade = (float)reader["AverageGrade"],
                 FacultyId = reader["FacultyId"] != DBNull.Value
                     ? (int)reader["FacultyId"]
                     : null
