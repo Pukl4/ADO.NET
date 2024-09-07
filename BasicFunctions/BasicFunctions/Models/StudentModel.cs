@@ -13,7 +13,7 @@ namespace BasicFunctions.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public double AverageGrade { get; set; }
+        public float AverageGrade { get; set; }
         public int? FacultyId { get; set; }
     }
 }

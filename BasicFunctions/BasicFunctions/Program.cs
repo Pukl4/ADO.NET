@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using BasicFunctions.Models;    
 
-
 namespace BasicFunctions
 {
     internal class Program
